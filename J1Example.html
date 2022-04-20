@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	
+		<title>J1 Example</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.formfield{margin-bottom:10px;}
+		</style>
+	</head>
+	<body>
+	<p>Epidemiology Problm. <a href="https://cemc.uwaterloo.ca/contests/computing/2020/index.html">from the J1 problem hosted by the CCC.</a></p>
+	<div id="app">
+		<div class="formfield">
+			<label>Total Number of People Infected: <label> <input v-model="total_no_people">
+		</div>
+		<div class="formfield">
+			<label>No. of People at Day 0: <label> <input v-model="people_at_dayzero">
+		</div>
+		<div class="formfield">
+			<label>No. of People affected by 1 Person : <label> <input v-model="people_affectedby_person">
+		</div>
+		<div id="result">
+			<div><label>show Result:</label><input type="checkbox" v-model="epidemiology_diagnostics"/></div>
+			<div v-if="epidemiology_diagnostics">Total Days: {{total_days}}</div>
+		</div>
+	</div>
+	
+	<script>
+	var app = new Vue({
+		el: '#app',
+		data:{
+			epidemiology_diagnostics:false,
+			total_no_people:0,
+			people_at_dayzero:0,
+			people_affectedby_person:0
+		},
+		computed:{
+            total_days: function(){
+                var total = (+this.people_affectedby_person + +this.people_at_dayzero);
+                var people_affectedby_person_value = (this.people_affectedby_person * this.people_at_dayzero);
+                var days = 0;
+                while(total < this.total_no_people){
+                    days++;
+                    total += people_affectedby_person_value;
+                    people_affectedby_person_value *= this.people_affectedby_person;
+                }
+                return days;
+            }
+		}
+	});
+	
+	</script>
+	<!--
+		v-model will allow you to quickly bind form elements to the data property.
+		Make sure to set a default value!
+		The Computed property can be used like data, except for values that are calculated from data properties.
+		In this example 'treat_total' is computed from data properties, and 'is_happy' is computed from 'treat_total'.
+		
+		ASYNCHRONOUS LEARNING EXERCISE : J1
+		- Find any J1 problem
+		- Imagine an interface that allows the user to enter data on the webpage
+		- Build using v-model and computed properties!
+	
+	-->
+	</body>
+</html>
